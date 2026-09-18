@@ -1,5 +1,8 @@
 TAX_RATE = 0.10
 
+total_inventory = 0
+rejected_entries = 0
+
 
 def calculate_tax(amount):
     return amount * TAX_RATE
@@ -22,8 +25,23 @@ def get_valid_input():
         print("Invalid input. Please enter a valid integer.")
         return None
 
-def generate_report(total_inventory, rejected_entries):
-    print(f"Total inventory: {total_inventory}")
-    print(f"Rejected entries: {rejected_entries}")
+def generate_report(total_units, failed_attempts):
+    print(f"Total units: {total_units}")
+    print(f"Rejected entries: {failed_attempts}")
 
-generate_report(2500, 100)
+
+while True:
+    entry = get_valid_input()
+    
+    if entry == 'quit':
+        generate_report(total_inventory, rejected_entries)
+        break
+    if entry is None:
+        rejected_entries += 1
+        continue
+    if entry is not None:
+        total_inventory = process_delivery(total_inventory, entry)
+        print(f"Current total units: {total_inventory}")
+        print(f"Tax on current total: {calculate_tax(total_inventory)}")
+
+
